@@ -65,12 +65,12 @@
   /* BUTTONS — icon lives inside the pill, hover slides icon + lifts + lightens */
   .btn{
     display:inline-flex; align-items:center; justify-content:center; gap:10px;
-    padding:17px 14px 17px 30px; border-radius:var(--pill); font-weight:700; font-size:15px;
+    padding:12px 12px 12px 26px; border-radius:var(--pill); font-weight:700; font-size:15px;
     cursor:pointer; border:2px solid transparent; transition:.3s var(--ease); white-space:nowrap;
   }
   .btn-icon{
     display:inline-flex; align-items:center; justify-content:center;
-    width:34px; height:34px; border-radius:50%; background:rgba(255,255,255,0.16); flex-shrink:0;
+    width:32px; height:32px; border-radius:50%; background:rgba(255,255,255,0.16); flex-shrink:0;
     transition:.3s var(--ease);
   }
   .btn-icon svg{width:15px; height:15px; transition:transform .3s var(--ease);}
@@ -160,7 +160,7 @@
     background:var(--grad-brand); color:var(--ink); font-weight:800; font-size:15px;
     border-radius:var(--pill); padding:11px 20px; white-space:nowrap;
   }
-  .stat-card span{font-size:14px; color:#dcdbd6;}
+  .stat-card span{font-size:14px; color:#dcdbd6; font-weight:700;}
 
   /* HERO PHOTO */
   .hero-photo{
@@ -198,6 +198,11 @@
     padding:11px 20px; font-size:13.5px; font-weight:600; color:#e7e6e0; white-space:nowrap;
   }
 
+  /* highlighted heading — marks copy the source doc flagged to stand out visually */
+  .hl-heading{
+    display:inline-block; background:var(--orange-soft); color:var(--orange-2);
+    padding:8px 18px; border-radius:10px; margin:48px 0 22px; font-size:20px;
+  }
   .accent-note{
     display:flex; gap:14px; background:var(--panel-2); border-left:3px solid var(--orange);
     border-radius:var(--r-sm); padding:22px 24px; font-size:14.5px; color:#dedcd6;
@@ -332,22 +337,10 @@
   }
   .prog-result strong{color:var(--orange-2); font-weight:800;}
 
-  /* PROGRAM "SHOW MORE" — first couple of modules visible, rest reveal on demand */
-  .prog-hidden{max-height:0; overflow:hidden; transition:max-height .5s var(--ease);}
-  .prog-more{
-    display:flex; align-items:center; justify-content:center; gap:12px; width:100%;
-    margin-top:28px; padding:19px 22px; border-radius:var(--pill); border:1px solid var(--line);
-    background:var(--panel-2); color:var(--white); font-weight:700; font-size:14.5px; cursor:pointer;
-    transition:.3s var(--ease); font-family:'Manrope',sans-serif;
-  }
-  .prog-more:hover{border-color:var(--orange); color:var(--orange-2); background:rgba(255,146,103,0.08);}
-  .prog-more .chev{
-    width:32px; height:32px; border-radius:50%; background:var(--panel-3); border:1px solid var(--line);
-    display:flex; align-items:center; justify-content:center; transition:transform .35s var(--ease), background .3s var(--ease), border-color .3s var(--ease);
-    flex-shrink:0;
-  }
-  .prog-more .chev svg{width:14px; height:14px;}
-  .prog-more.is-open .chev{transform:rotate(180deg); background:var(--orange); border-color:var(--orange); color:var(--ink);}
+  /* PROGRAM PREVIEW — first 2 sub-items always visible under each module title;
+     the header plus-icon expands the rest (inside .prog-body) */
+  .prog-preview{padding:0 4px 20px 80px;}
+  .prog-preview .prog-desc{min-width:0;}
 
   /* HOW IT WORKS — connected timeline */
   .timeline{position:relative;}
@@ -420,14 +413,15 @@
   .cta-final .eyebrow{justify-content:center; display:flex;}
   .cta-final .giant{margin-bottom:24px; text-align:center; font-size:clamp(34px,6vw,68px);}
   .cta-final p{color:#dcdbd6; font-size:15.5px; margin-bottom:14px; text-align:left;}
-  .cta-badges{display:flex; flex-wrap:wrap; justify-content:center; gap:10px; margin:24px 0 0;}
+  .cta-badges{display:flex; flex-direction:column; align-items:center; gap:10px; margin:24px 0 0;}
+  .cta-badges-row{display:flex; flex-wrap:wrap; justify-content:center; gap:10px;}
   .cta-badge{
     display:flex; align-items:center; gap:10px; background:var(--panel-2); border:1px solid var(--line);
     border-radius:var(--pill); padding:10px 18px 10px 10px; font-size:13px; font-weight:600; color:#e7e6e0;
   }
   .cta-badge .dot{width:26px; height:26px; border-radius:50%; background:var(--orange); display:flex; align-items:center; justify-content:center; font-size:12px; color:var(--ink); flex-shrink:0;}
   .cta-final .btn-row{justify-content:center; margin-top:32px;}
-  .cta-note{margin-top:22px; color:var(--muted); font-size:13px; text-align:center;}
+  .cta-note{margin-top:22px; color:var(--muted); font-size:13px; text-align:center; font-style:italic;}
 
   /* FOOTER */
   footer{border-top:1px solid var(--line); padding:72px 0 32px; color:#b6b6b0; font-size:14px;}
@@ -512,6 +506,7 @@
 
     .cta-inner{padding:44px 26px;}
     .prog-inner{padding-left:4px; flex-direction:column;}
+    .prog-preview{padding-left:4px;}
     .prog-result{margin-left:4px;}
     .prog-title{font-size:19px;}
     .hero-photo{min-height:560px;}
@@ -527,6 +522,13 @@
       flex:none; width:100%; position:sticky; top:88px; margin-bottom:18px;
       box-shadow:0 24px 50px rgba(0,0,0,0.5);
     }
+    /* each card sticks a bit lower than the last, so the previous card's top
+       edge (index number) keeps peeking out instead of being fully covered */
+    .persona-card:nth-child(1){top:88px; z-index:1;}
+    .persona-card:nth-child(2){top:144px; z-index:2;}
+    .persona-card:nth-child(3){top:200px; z-index:3;}
+    .persona-card:nth-child(4){top:256px; z-index:4;}
+    .persona-card:nth-child(5){top:312px; z-index:5;}
   }
 
   /* PHONE — tighter spacing, single-column bento/footer, smaller type ceilings */
@@ -553,17 +555,23 @@
     .stat-bento .s-cell .big{font-size:26px;}
     .foot-grid{grid-template-columns:1fr; gap:32px;}
     .card, .b-card, .persona-card{padding:24px;}
-    .persona-card{top:78px;}
+    .persona-card:nth-child(1){top:78px;}
+    .persona-card:nth-child(2){top:122px;}
+    .persona-card:nth-child(3){top:166px;}
+    .persona-card:nth-child(4){top:210px;}
+    .persona-card:nth-child(5){top:254px;}
     .prog-head{gap:12px; padding:24px 2px;}
     .prog-idx{font-size:11.5px; padding:7px 14px;}
     .prog-title{font-size:19px;}
     .prog-head .icon-plus{width:38px; height:38px;}
     .prog-count{font-size:12px; padding:8px 14px;}
-    .prog-more{padding:16px 18px; font-size:13.5px;}
-    .btn{padding:15px 12px 15px 22px; font-size:14px;}
-    .btn-icon{width:30px; height:30px;}
+    .btn{padding:10px 10px 10px 20px; font-size:14px;}
+    .btn-icon{width:28px; height:28px;}
     .cta-inner{padding:32px 20px;}
-    .cta-badge{font-size:12px;}
+    /* not enough width for 2-across badges here — stack and enlarge instead of shrinking */
+    .cta-badges-row{flex-direction:column; align-items:stretch; width:100%;}
+    .cta-badge{font-size:13.5px; padding:12px 18px 12px 10px; justify-content:flex-start;}
+    .cta-badge .dot{width:28px; height:28px; font-size:13px;}
     .modal{padding:28px 22px;}
     .tstep{gap:16px;}
     .tnode{width:46px; height:46px; border-radius:13px; font-size:14px;}
@@ -820,7 +828,7 @@
     </div>
 
     <div class="accent-note" style="max-width:900px; margin-top:36px;" data-reveal>
-      Важливо: «Майстер нового покоління» — це не короткий курс із набором окремих технік, а фундаментальна
+      <strong style="color:var(--orange-2);">Важливо:</strong> «Майстер нового покоління» — це не короткий курс із набором окремих технік, а фундаментальна
       професійна програма та перший крок до опанування нової професії Тритментолога. Статус
       «Спеціаліст-Тритментолог» здобувається після практики й підтвердження необхідних компетенцій у BLESS Academy.
     </div>
@@ -849,12 +857,14 @@
           </span>
           <span class="prog-title">вступ і постановка цілей</span>
         </button>
+        <div class="prog-preview"><div class="prog-desc"><ul>
+          <li>Вступ до програми</li>
+          <li>Аналіз п'яти сфер життя</li>
+        </ul></div></div>
         <div class="prog-body">
           <div class="prog-inner">
             <div class="prog-desc">
               <ul>
-                <li>Вступ до програми</li>
-                <li>Аналіз п'яти сфер життя</li>
                 <li>Постановка особистих і професійних цілей</li>
               </ul>
             </div>
@@ -872,12 +882,14 @@
           </span>
           <span class="prog-title">профільні знання</span>
         </button>
+        <div class="prog-preview"><div class="prog-desc"><ul>
+          <li>Будова волосся</li>
+          <li>Шкала pH та її вплив на волосся</li>
+        </ul></div></div>
         <div class="prog-body">
           <div class="prog-inner">
             <div class="prog-desc">
               <ul>
-                <li>Будова волосся</li>
-                <li>Шкала pH та її вплив на волосся</li>
                 <li>Кератинові системи</li>
                 <li>Гарячі ботокси</li>
                 <li>Холодне відновлення</li>
@@ -894,7 +906,6 @@
         </div>
       </div>
 
-      <div class="prog-hidden" id="progHidden">
       <div class="prog-item" data-reveal>
         <button class="prog-head" onclick="toggleAcc(this,'prog')">
           <span class="prog-head-top">
@@ -903,12 +914,14 @@
           </span>
           <span class="prog-title">професійні навички</span>
         </button>
+        <div class="prog-preview"><div class="prog-desc"><ul>
+          <li>Майстер-клас із кератинового випрямлення</li>
+          <li>Майстер-клас з амінокислотного ботоксу</li>
+        </ul></div></div>
         <div class="prog-body">
           <div class="prog-inner">
             <div class="prog-desc">
               <ul>
-                <li>Майстер-клас із кератинового випрямлення</li>
-                <li>Майстер-клас з амінокислотного ботоксу</li>
                 <li>Майстер-клас із колагенового ботоксу</li>
                 <li>Майстер-клас із холодного ботоксу</li>
                 <li>Технологія нанореконструкції</li>
@@ -931,12 +944,14 @@
           </span>
           <span class="prog-title">час, планування та професійний статус</span>
         </button>
+        <div class="prog-preview"><div class="prog-desc"><ul>
+          <li>Визначення власної «Точки 0»</li>
+          <li>Планування наступних кроків і професійних можливостей</li>
+        </ul></div></div>
         <div class="prog-body">
           <div class="prog-inner">
             <div class="prog-desc">
               <ul>
-                <li>Визначення власної «Точки 0»</li>
-                <li>Планування наступних кроків і професійних можливостей</li>
                 <li>Формування професійного статусу</li>
               </ul>
             </div>
@@ -957,7 +972,7 @@
         <div class="prog-body">
           <div class="prog-inner">
             <div class="prog-desc">
-              <p style="color:#cbcbc6; font-weight:400; font-size:14.5px;">Сервіс у салоні краси: принципи професійної взаємодії з клієнтом і створення якісного клієнтського досвіду.</p>
+              <p style="color:#cbcbc6; font-weight:400; font-size:14.5px;"><strong style="color:var(--white);">Сервіс у салоні краси:</strong> принципи професійної взаємодії з клієнтом і створення якісного клієнтського досвіду.</p>
             </div>
           </div>
         </div>
@@ -971,12 +986,14 @@
           </span>
           <span class="prog-title">практична частина</span>
         </button>
+        <div class="prog-preview"><div class="prog-desc"><ul>
+          <li>Знайомство та робота з технологом</li>
+          <li>Розбір професійних запитань</li>
+        </ul></div></div>
         <div class="prog-body">
           <div class="prog-inner">
             <div class="prog-desc">
               <ul>
-                <li>Знайомство та робота з технологом</li>
-                <li>Розбір професійних запитань</li>
                 <li>Відпрацювання процедур на моделях</li>
                 <li>Правильне нанесення професійних складів</li>
                 <li>Підбір і використання робочих інструментів</li>
@@ -990,13 +1007,7 @@
           <div class="prog-result"><strong>Результат практики:</strong> ви відпрацюєте техніки на моделях під контролем технолога, скоригуєте помилки та підтвердите засвоєні навички на іспиті.</div>
         </div>
       </div>
-      </div>
     </div>
-
-    <button class="prog-more" id="progMoreBtn" onclick="toggleProgMore(this)">
-      <span class="prog-more-text">читати більше програму</span>
-      <span class="chev"><svg><use href="#ic-chevron"/></svg></span>
-    </button>
 
     <div class="accent-note" style="max-width:900px; margin-top:40px;" data-reveal>
       <div>
@@ -1005,10 +1016,11 @@
         стартову точку та професійні цілі, обрати відповідний формат навчання і сформувати подальший маршрут
         розвитку. Супровід не завершується після закінчення програми — тренер допомагає перенести отримані
         знання у реальну роботу та продовжити розвиток усередині BLESS Ecosystem.
+        <strong style="display:block; margin-top:12px; color:var(--white);">Ви отримуєте не лише навчальну програму, а й підтримку людини, яка допомагає пройти шлях від знань до конкретних дій і результатів.</strong>
       </div>
     </div>
 
-    <h3 style="font-size:22px; margin:48px 0 22px; font-weight:800;" data-reveal>Після навчання ви зможете</h3>
+    <h3 class="hl-heading" data-reveal>Після навчання ви зможете</h3>
     <div class="grid-2">
       <div class="prog-desc" data-reveal>
         <ul>
@@ -1197,9 +1209,13 @@
           маршрут професійного розвитку.
         </p>
         <div class="cta-badges">
-          <span class="cta-badge"><span class="dot">✓</span>сертифікат BLESS School</span>
-          <span class="cta-badge"><span class="dot">★</span>супровід бізнес-тренера</span>
-          <span class="cta-badge"><span class="dot">→</span>перший крок до Тритментолога</span>
+          <div class="cta-badges-row">
+            <span class="cta-badge"><span class="dot">✓</span>сертифікат BLESS School</span>
+            <span class="cta-badge"><span class="dot">★</span>супровід бізнес-тренера</span>
+          </div>
+          <div class="cta-badges-row">
+            <span class="cta-badge"><span class="dot">→</span>перший крок до Тритментолога</span>
+          </div>
         </div>
         <div class="btn-row">
           <button class="btn btn-primary" onclick="openModal('apply')">залишити заявку<span class="btn-icon"><svg><use href="#ic-arrow"/></svg></span></button>
@@ -1377,39 +1393,6 @@
       item.classList.add('is-open');
       body.style.maxHeight = body.scrollHeight + 'px';
     }
-  }
-
-  // "read more" toggle for the program accordion — reveals modules 3-6, keeps
-  // max-height in sync so nested accordion items can still expand freely
-  (function(){
-    var wrap = document.getElementById('progHidden');
-    if(!wrap) return;
-    wrap.addEventListener('transitionend', function(e){
-      if(e.propertyName === 'max-height' && wrap.classList.contains('expanded')){
-        wrap.style.maxHeight = 'none';
-      }
-    });
-  })();
-  function toggleProgMore(btn){
-    var wrap = document.getElementById('progHidden');
-    var expanding = !wrap.classList.contains('expanded');
-    if(expanding){
-      wrap.classList.add('expanded');
-      wrap.style.maxHeight = wrap.scrollHeight + 'px';
-    } else {
-      wrap.style.maxHeight = wrap.scrollHeight + 'px';
-      requestAnimationFrame(function(){
-        requestAnimationFrame(function(){ wrap.style.maxHeight = '0px'; });
-      });
-      wrap.classList.remove('expanded');
-      // collapse any open modules that are now hidden again
-      wrap.querySelectorAll('.prog-item.is-open').forEach(function(el){
-        el.classList.remove('is-open');
-        el.querySelector('.prog-body').style.maxHeight = null;
-      });
-    }
-    btn.classList.toggle('is-open', expanding);
-    btn.querySelector('.prog-more-text').textContent = expanding ? 'згорнути список' : 'читати більше програму';
   }
 
   function scrollCarousel(dir){
