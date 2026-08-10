@@ -337,7 +337,14 @@
   .prog-item:hover .prog-title{color:var(--orange-2);}
   .prog-item:hover .prog-idx{border-color:var(--orange); color:var(--orange);}
   .prog-item.is-open .prog-idx{background:var(--orange); border-color:var(--orange); color:var(--ink);}
-  .prog-body{max-height:0; overflow:hidden; transition:max-height .4s var(--ease);}
+  .prog-body{
+    max-height:58px; overflow:hidden; position:relative;
+    transition:max-height .5s var(--ease), filter .4s var(--ease);
+    filter:blur(2.5px);
+    mask-image:linear-gradient(to bottom, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.35) 55%, rgba(0,0,0,0) 100%);
+    -webkit-mask-image:linear-gradient(to bottom, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.35) 55%, rgba(0,0,0,0) 100%);
+  }
+  .prog-item.is-open .prog-body{filter:blur(0); mask-image:none; -webkit-mask-image:none;}
   .prog-inner{padding:0 4px 34px 80px; display:flex; gap:40px; flex-wrap:wrap; justify-content:space-between;}
   .prog-desc{flex:1; min-width:260px;}
   .prog-desc ul{display:flex; flex-direction:column; gap:9px;}
@@ -354,9 +361,23 @@
   .prog-result strong{color:var(--orange-2); font-weight:800;}
 
   /* PROGRAM PREVIEW — first 2 sub-items always visible under each module title;
-     the header plus-icon expands the rest (inside .prog-body) */
+     the rest sits inside .prog-body, shown as a blurred/faded peek until expanded */
   .prog-preview{padding:0 4px 20px 80px;}
   .prog-preview .prog-desc{min-width:0;}
+
+  /* PROGRAM EXPAND BUTTON — CTA pill under the blurred peek, toggles the same accordion */
+  .prog-expand{
+    display:flex; align-items:center; gap:9px; margin:-8px 4px 30px 80px;
+    background:var(--grad-brand); color:var(--ink); border:none; border-radius:var(--pill);
+    padding:11px 22px; font-family:'Manrope',sans-serif; font-size:13.5px; font-weight:800;
+    cursor:pointer; transition:.25s var(--ease); position:relative; z-index:2;
+  }
+  .prog-expand:hover{transform:translateY(-1px); box-shadow:0 10px 24px rgba(255,150,60,0.28);}
+  .prog-expand-arrow{display:inline-flex; transition:transform .35s var(--ease); font-size:12px;}
+  .prog-item.is-open .prog-expand-arrow{transform:rotate(180deg);}
+  .prog-expand .txt-open{display:none;}
+  .prog-item.is-open .prog-expand .txt-closed{display:none;}
+  .prog-item.is-open .prog-expand .txt-open{display:inline;}
 
   /* HOW IT WORKS — connected timeline */
   .timeline{position:relative;}
@@ -558,6 +579,7 @@
     .prog-inner{padding-left:4px; flex-direction:column;}
     .prog-preview{padding-left:4px;}
     .prog-result{margin-left:4px;}
+    .prog-expand{margin-left:4px;}
     .prog-title{font-size:19px;}
     .hero-photo{min-height:560px;}
 
@@ -925,6 +947,7 @@
           </div>
           <div class="prog-result"><strong>Результат блоку:</strong> ви визначите власну точку старту, цілі навчання та напрям подальшого професійного розвитку.</div>
         </div>
+        <button class="prog-expand" onclick="toggleAcc(this,'prog')"><span class="txt-closed">розгорнути блок</span><span class="txt-open">згорнути блок</span><span class="prog-expand-arrow">↓</span></button>
       </div>
 
       <div class="prog-item" data-reveal>
@@ -957,6 +980,7 @@
           </div>
           <div class="prog-result"><strong>Результат блоку:</strong> ви розумітимете будову й ступені пошкодження волосся, принципи дії професійних засобів та критерії підбору процедури й домашнього догляду.</div>
         </div>
+        <button class="prog-expand" onclick="toggleAcc(this,'prog')"><span class="txt-closed">розгорнути блок</span><span class="txt-open">згорнути блок</span><span class="prog-expand-arrow">↓</span></button>
       </div>
 
       <div class="prog-item" data-reveal>
@@ -987,6 +1011,7 @@
           </div>
           <div class="prog-result"><strong>Результат блоку:</strong> ви опануєте основні процедури, зрозумієте їхню технологію та навчитеся підбирати відповідні інструменти й алгоритми роботи.</div>
         </div>
+        <button class="prog-expand" onclick="toggleAcc(this,'prog')"><span class="txt-closed">розгорнути блок</span><span class="txt-open">згорнути блок</span><span class="prog-expand-arrow">↓</span></button>
       </div>
 
       <div class="prog-item" data-reveal>
@@ -1012,6 +1037,7 @@
           </div>
           <div class="prog-result"><strong>Результат блоку:</strong> ви зрозумієте свою поточну позицію, визначите напрям розвитку та сформуєте більш системний підхід до професії.</div>
         </div>
+        <button class="prog-expand" onclick="toggleAcc(this,'prog')"><span class="txt-closed">розгорнути блок</span><span class="txt-open">згорнути блок</span><span class="prog-expand-arrow">↓</span></button>
       </div>
 
       <div class="prog-item" data-reveal>
@@ -1029,6 +1055,7 @@
             </div>
           </div>
         </div>
+        <button class="prog-expand" onclick="toggleAcc(this,'prog')"><span class="txt-closed">розгорнути блок</span><span class="txt-open">згорнути блок</span><span class="prog-expand-arrow">↓</span></button>
       </div>
 
       <div class="prog-item" data-reveal>
@@ -1059,6 +1086,7 @@
           </div>
           <div class="prog-result"><strong>Результат практики:</strong> ви відпрацюєте техніки на моделях під контролем технолога, скоригуєте помилки та підтвердите засвоєні навички на іспиті.</div>
         </div>
+        <button class="prog-expand" onclick="toggleAcc(this,'prog')"><span class="txt-closed">розгорнути блок</span><span class="txt-open">згорнути блок</span><span class="prog-expand-arrow">↓</span></button>
       </div>
     </div>
 
